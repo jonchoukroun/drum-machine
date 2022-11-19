@@ -1,0 +1,3 @@
+/Users/jonchoukroun/Developer/SoundLab/DrumMachine/build/Debug/CMakeFiles/DrumMachine.dir
+/Users/jonchoukroun/Developer/SoundLab/DrumMachine/build/Debug/CMakeFiles/edit_cache.dir
+/Users/jonchoukroun/Developer/SoundLab/DrumMachine/build/Debug/CMakeFiles/rebuild_cache.dir
