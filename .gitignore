@@ -1,3 +1,7 @@
+// Intellisense caching
 .cache/
-build/*
+
+// Build artifacts
 bin/*
+build/*
+complile_commands.json
