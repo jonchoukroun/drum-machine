@@ -22,7 +22,6 @@ InstrumentPicker::InstrumentPicker(wxWindow* parent)
     for (std::string s : s_instruments)
     {
         m_picker->Append(s);
-
     }
 }
 
