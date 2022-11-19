@@ -30,5 +30,5 @@ target_link_libraries(DrumMachine ${wxWidgets_LIBRARIES})
 
 set_target_properties(DrumMachine
     PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin/$<CONFIG>")
+    RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin/")
 
