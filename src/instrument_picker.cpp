@@ -1,27 +1,19 @@
 #include "instrument_picker.h"
 
 InstrumentPicker::InstrumentPicker(wxWindow* parent)
-    : wxPanel(parent, wxID_ANY)
-    , m_picker(new wxChoice(this,
-            wxID_ANY,
-            wxPoint(20, 40),
-            wxSize(-1, -1),
-            0,
-            NULL,
-            0,
-            wxDefaultValidator,
-            wxT("Instrument Picker")))
-    , m_pickerLabel(new wxStaticText(this,
+    : m_sizer(new wxStaticBoxSizer(wxVERTICAL, parent))
+    , m_pickerLabel(new wxStaticText(parent,
                 wxID_ANY,
-                INSTRUMENT_PICKER_LABEL,
-                wxPoint(20, 10),
-                wxDefaultSize,
-                0,
-                wxT("Instrument Picker Label")))
+                INSTRUMENT_PICKER_LABEL))
+    , m_picker(new wxChoice(parent, wxID_ANY))
 {
     for (std::string s : s_instruments)
     {
         m_picker->Append(s);
     }
-}
 
+    m_sizer->Add(m_picker,
+            wxSizerFlags(0).Expand().Border(wxALL, 10));
+    m_sizer->Add(m_pickerLabel,
+            wxSizerFlags(0).Align(wxALIGN_CENTER).Border(wxTOP, 10));
+}

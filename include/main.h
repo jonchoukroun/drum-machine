@@ -6,6 +6,9 @@
 #endif
 
 #include "instrument_picker.h"
+#include "transport.h"
+#include "volume_control.h"
+
 #include "string_constants.h"
 
 class DrumMachine : public wxApp
@@ -21,6 +24,8 @@ public:
 
 private:
     InstrumentPicker m_instrumentPicker;
+    Transport m_transport;
+    VolumeControl m_volumeControl;
 };
 
 
