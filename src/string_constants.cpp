@@ -1,7 +1,8 @@
 #include "string_constants.h"
 
 // Main window
-extern const std::string APP_TITLE = "Drum Machine";
+extern const std::string APP_TITLE = "SDSx";
+extern const std::string APP_SUBTITLE = "Synthesized Drum Sequencer x01";
 
 // Instrument Picker
 extern const std::string INSTRUMENT_PICKER_LABEL = "Instrument Selector";

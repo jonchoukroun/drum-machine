@@ -6,6 +6,8 @@
 #endif
 
 #include "instrument_picker.h"
+#include "sequencer.h"
+#include "title.h"
 #include "transport.h"
 #include "volume_control.h"
 
@@ -24,6 +26,8 @@ public:
 
 private:
     InstrumentPicker m_instrumentPicker;
+    Sequencer m_sequencer;
+    Title m_title;
     Transport m_transport;
     VolumeControl m_volumeControl;
 };

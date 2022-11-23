@@ -4,6 +4,7 @@
 
 // Main window
 extern const std::string APP_TITLE;
+extern const std::string APP_SUBTITLE;
 
 // Instrument Picker
 extern const std::string INSTRUMENT_PICKER_LABEL;

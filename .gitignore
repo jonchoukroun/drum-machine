@@ -1,5 +1,5 @@
 // Intellisense caching
-.cache/
+.cache/*
 
 // Build artifacts
 bin/*

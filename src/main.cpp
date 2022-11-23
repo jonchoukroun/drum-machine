@@ -18,6 +18,8 @@ ParentFrame::ParentFrame()
             wxDEFAULT_FRAME_STYLE,
             "parent-frame")
     , m_instrumentPicker(this)
+    , m_sequencer(this)
+    , m_title(this)
     , m_transport(this)
     , m_volumeControl(this)
 {
@@ -31,35 +33,9 @@ ParentFrame::ParentFrame()
 
     wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);
 
-    // Window Title
-    wxBoxSizer* titleSizer = new wxBoxSizer(wxHORIZONTAL);
-    wxFont* titleFont = new wxFont(64,
-            wxFONTFAMILY_DEFAULT,
-            wxFONTSTYLE_NORMAL,
-            wxFONTWEIGHT_NORMAL,
-            false,
-            "title-font",
-            wxFONTENCODING_DEFAULT);
-    wxStaticText* title = new wxStaticText(this, wxID_ANY, "SDSx");
-    title->SetFont(*titleFont);
-    titleSizer->Add(title,
-            wxSizerFlags(0).Align(wxALIGN_BOTTOM).Border(wxALL, 0));
-
-    wxFont* subtitleFont = new wxFont(16,
-            wxFONTFAMILY_DEFAULT,
-            wxFONTSTYLE_NORMAL,
-            wxFONTWEIGHT_NORMAL,
-            false,
-            "subtitle-font",
-            wxFONTENCODING_DEFAULT);
-    wxStaticText* subtitle = new wxStaticText(this,
-            wxID_ANY,
-            "Synthesized Drum Machine - Experiment 0.1");
-    subtitle->SetFont(*subtitleFont);
-    titleSizer->Add(subtitle,
-            wxSizerFlags(1).Align(wxALIGN_BOTTOM).Border(wxLEFT, 20));
-
-    mainSizer->Add(titleSizer, wxSizerFlags(0).Border(wxALL, 40));
+    // Title
+    mainSizer->Add(m_title.getSizer(),
+            wxSizerFlags(0).Expand().Border(wxALL, 40));
 
     // Control Panels
     wxBoxSizer* controlsSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -78,16 +54,10 @@ ParentFrame::ParentFrame()
             wxSizerFlags(0).Expand().Border(wxLEFT | wxRIGHT, 40));
 
     // Sequencer
-    wxStaticBoxSizer* seqSizer = new wxStaticBoxSizer(wxHORIZONTAL, this);
-    wxPanel* seq = new wxPanel(this,
-            wxID_ANY,
-            wxDefaultPosition,
-            wxSize(200, 200));
-    seq->SetBackgroundColour(wxColor(200, 100, 50));
-    seqSizer->Add(seq, wxSizerFlags(1).Expand());
-
-    mainSizer->Add(seqSizer,
-            wxSizerFlags(0).Expand().Border(wxALL, 20));
+    mainSizer->Add(m_sequencer.getSizer(),
+            wxSizerFlags(0)
+                .Align((wxALIGN_CENTER_HORIZONTAL))
+                .Border(wxALL, 40));
 
     SetSizer(mainSizer);
 }

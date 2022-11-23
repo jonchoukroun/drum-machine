@@ -20,6 +20,8 @@ include(${wxWidgets_USE_FILE})
 
 add_executable(DrumMachine ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/instrument_picker.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/sequencer.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/title.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/transport.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/volume_control.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/string_constants.cpp)
