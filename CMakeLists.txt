@@ -16,9 +16,12 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -std=c++20")
 find_package(wxWidgets REQUIRED COMPONENTS net core base)
 include(${wxWidgets_USE_FILE})
 
-# include_directories(/opt/homebrew/Cellar/portaudio/19.7.0/include)
+include_directories(/opt/homebrew/Cellar/portaudio/19.7.0/include)
 
 add_executable(DrumMachine ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
+    # Audio components
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/audio_engine.cpp
+    # GUI Components
     ${CMAKE_CURRENT_SOURCE_DIR}/src/instrument_picker.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/sequencer.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/title.cpp
@@ -30,7 +33,7 @@ target_include_directories(DrumMachine PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/include")
 
 target_link_libraries(DrumMachine ${wxWidgets_LIBRARIES})
-# target_link_libraries(DrumMachine /opt/homebrew/Cellar/portaudio/19.7.0/lib/libportaudio.2.dylib)
+target_link_libraries(DrumMachine /opt/homebrew/Cellar/portaudio/19.7.0/lib/libportaudio.2.dylib)
 
 set_target_properties(DrumMachine
     PROPERTIES

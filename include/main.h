@@ -1,10 +1,14 @@
+#include <cstdlib>
 #include <iostream>
 #include <wx/wxprec.h>
-
 #ifndef WX_PRECOMP
     #include <wx/wx.h>
 #endif
 
+// Audio Components
+#include "audio_engine.h"
+
+// GUI Components
 #include "instrument_picker.h"
 #include "sequencer.h"
 #include "title.h"
@@ -17,12 +21,16 @@ class DrumMachine : public wxApp
 {
 public:
     virtual bool OnInit();
+    virtual int OnExit();
+
+private:
+    AudioEngine m_engine;
 };
 
 class ParentFrame : public wxFrame
 {
 public:
-    ParentFrame();
+    ParentFrame(AudioEngine&);
 
 private:
     InstrumentPicker m_instrumentPicker;

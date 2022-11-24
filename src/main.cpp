@@ -4,12 +4,21 @@ wxIMPLEMENT_APP(DrumMachine);
 
 bool DrumMachine::OnInit()
 {
-    ParentFrame* frame = new ParentFrame;
+    if (!m_engine.init()) return false;
+
+    ParentFrame* frame = new ParentFrame(m_engine);
     frame->Show(true);
     return true;
 }
 
-ParentFrame::ParentFrame()
+int DrumMachine::OnExit()
+{
+    if (!m_engine.cleanup()) return EXIT_FAILURE;
+
+    return EXIT_SUCCESS;
+}
+
+ParentFrame::ParentFrame(AudioEngine& engine)
     : wxFrame(NULL,
             wxID_ANY,
             APP_TITLE,
@@ -20,7 +29,7 @@ ParentFrame::ParentFrame()
     , m_instrumentPicker(this)
     , m_sequencer(this)
     , m_title(this)
-    , m_transport(this)
+    , m_transport(this, engine)
     , m_volumeControl(this)
 {
     wxMenu* menuFile = new wxMenu;

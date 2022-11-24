@@ -1,7 +1,8 @@
 #include "transport.h"
 
-Transport::Transport(wxWindow* parent)
-    : m_sizer(new wxStaticBoxSizer(wxVERTICAL, parent))
+Transport::Transport(wxWindow* parent, AudioEngine& engine)
+    : m_engine(engine)
+    , m_sizer(new wxStaticBoxSizer(wxVERTICAL, parent))
     , m_inputSizer(new wxBoxSizer(wxHORIZONTAL))
     , m_tempoInput(new wxTextCtrl(parent, wxID_ANY, "100"))
     , m_inputLabel(new wxStaticText(parent,
@@ -28,4 +29,15 @@ Transport::Transport(wxWindow* parent)
 
     m_sizer->Add(m_buttonsSizer,
             wxSizerFlags(0).Expand().Border(wxALL, 10));
+
+    m_playButton->Bind(wxEVT_BUTTON, [=](wxCommandEvent&)
+            {
+                if (m_engine.isPlaying()) return;
+                m_engine.play();
+            });
+    m_stopButton->Bind(wxEVT_BUTTON, [=](wxCommandEvent&)
+            {
+                if (!m_engine.isPlaying()) return;
+                m_engine.stop();
+            });
 }
