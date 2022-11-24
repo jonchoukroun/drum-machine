@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <array>
-#include <iostream>
 #include <string>
 #include <wx/bitmap.h>
 #include <wx/bmpbuttn.h>
