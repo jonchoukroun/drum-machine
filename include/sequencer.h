@@ -1,6 +1,8 @@
 #pragma once
 
+#include <algorithm>
 #include <array>
+#include <iostream>
 #include <string>
 #include <wx/bitmap.h>
 #include <wx/bmpbuttn.h>
@@ -17,18 +19,19 @@ public:
     wxStaticBoxSizer* getSizer() const { return m_sizer; };
 
 private:
+    wxWindow* m_parent;
     wxStaticBoxSizer* m_sizer { nullptr };
 
-    struct BeatButton
-    {
-        bool isSet;
-        wxBoxSizer* sizer;
-        wxBitmapButton* button;
-    };
-
     static constexpr int s_seqSize { 16 };
-    std::array<BeatButton, s_seqSize> m_seq;
+    std::array<bool, s_seqSize> m_kicks;
+    // std::array<bool, s_seqSize> m_snare;
+    // std::array<bool, s_seqSize> m_closedHats;
 
-    static const wxBitmap* s_buttonOnImg;
-    static const wxBitmap* s_buttonOffImg;
+    wxBitmap* s_buttonOnImg;
+    wxBitmap* s_buttonOffImg;
+    wxSize* s_buttonSize = new wxSize(36, 36);
+
+    void updateSizer();
+
+    void toggleBeat(wxCommandEvent&);
 };

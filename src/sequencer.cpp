@@ -1,51 +1,64 @@
 #include "sequencer.h"
 
 Sequencer::Sequencer(wxWindow* parent)
-    : m_sizer(new wxStaticBoxSizer(wxHORIZONTAL, parent))
+    : m_parent(parent)
+    , m_sizer(new wxStaticBoxSizer(wxHORIZONTAL, parent))
 {
     wxImage::AddHandler(new wxPNGHandler);
-    const wxBitmap* s_buttonOnImg = new wxBitmap(
+    s_buttonOnImg = new wxBitmap(
             "/Users/jonchoukroun/Developer/SoundLab/DrumMachine/assets/seq_button_on.png",
             wxBITMAP_TYPE_PNG);
-    const wxBitmap* s_buttonOffImg = new wxBitmap(
+    s_buttonOffImg = new wxBitmap(
             "/Users/jonchoukroun/Developer/SoundLab/DrumMachine/assets/seq_button_off.png",
             wxBITMAP_TYPE_PNG);
 
+    m_kicks.fill(false);
+    updateSizer();
+}
+
+void Sequencer::toggleBeat(wxCommandEvent& ev)
+{
+    int i = ev.GetId();
+    wxBitmapButton* b = static_cast<wxBitmapButton*>(ev.GetEventObject());
+    bool isSet = m_kicks.at(i);
+    if (isSet)
+    {
+        m_kicks.at(i) = false;
+        b->SetBitmap(*s_buttonOffImg);
+    }
+    else
+    {
+        m_kicks.at(i) = true;
+        b->SetBitmap(*s_buttonOnImg);
+    }
+}
+
+void Sequencer::updateSizer()
+{
     for (auto i = 0; i < s_seqSize; ++i)
     {
-        BeatButton button;
-        button.sizer = new wxBoxSizer(wxVERTICAL);
-        if (i == 0 || i == 6 || i == 8 || i == 15)
+        wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
+        const wxBitmap* bmp;
+        if (m_kicks.at(i))
         {
-            button.isSet = true;
-            button.button = new wxBitmapButton(parent,
-                    wxID_ANY,
-                    *s_buttonOnImg,
-                    wxDefaultPosition,
-                    wxSize(36, 36));
+            bmp = s_buttonOnImg;
         }
         else
         {
-            button.isSet = false;
-            button.button = new wxBitmapButton(parent,
-                    wxID_ANY,
-                    *s_buttonOffImg,
-                    wxDefaultPosition,
-                    wxSize(36, 36));
+            bmp = s_buttonOffImg;
         }
-        m_seq.at(i) = button;
+        wxBitmapButton* button = new wxBitmapButton(m_parent,
+                i,
+                *bmp,
+                wxDefaultPosition,
+                *s_buttonSize);
 
-        if (i == 0)
-        {
-            button.sizer->Add(button.button,
-                    wxSizerFlags(0).Expand());
-        }
-        else
-        {
-            button.sizer->Add(button.button,
-                    wxSizerFlags(0).Expand().Border(wxLEFT, 5));
-        }
+        button->Bind(wxEVT_BUTTON,
+                &Sequencer::toggleBeat,
+                this,
+                button->GetId());
 
-        m_sizer->Add(button.sizer);
+        sizer->Add(button, wxSizerFlags(0).Expand());
+        m_sizer->Add(sizer);
     }
 }
