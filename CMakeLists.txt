@@ -21,6 +21,7 @@ include_directories(/opt/homebrew/Cellar/portaudio/19.7.0/include)
 add_executable(DrumMachine ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
     # Audio components
     ${CMAKE_CURRENT_SOURCE_DIR}/src/audio_engine.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/oscillator.cpp
     # GUI Components
     ${CMAKE_CURRENT_SOURCE_DIR}/src/instrument_picker.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/sequencer.cpp

@@ -1,5 +1,7 @@
 #include "audio_engine.h"
 #include "portaudio.h"
+#include <cmath>
+#include <memory>
 
 bool AudioEngine::init()
 {
@@ -16,8 +18,8 @@ bool AudioEngine::init()
             s_format,
             s_sampleRate,
             s_bufferSize,
-            &fillBuffer,
-            &m_data);
+            &PaStreamCallback,
+            this);
     if (streamErr != paNoError)
     {
         handlePaError("open default stream", streamErr);
@@ -72,29 +74,26 @@ void AudioEngine::stop()
     }
 }
 
-int AudioEngine::fillBuffer(const void* inputBuffer,
+void AudioEngine::fillBuffer(float* buffer, size_t size)
+{
+    m_osc.writeSamples(buffer, size);
+}
+
+int AudioEngine::PaStreamCallback(const void* inputBuffer,
         void* outputBuffer,
         unsigned long bufferSize,
         const PaStreamCallbackTimeInfo* timeInfo,
         PaStreamCallbackFlags statusFlags,
         void* userData)
 {
-    PaUserData* data = static_cast<PaUserData*>(userData);
-    float* out = static_cast<float*>(outputBuffer);
-
+    AudioEngine* _this = static_cast<AudioEngine *>(userData);
     (void)inputBuffer;
     (void)timeInfo;
     (void)statusFlags;
 
-    for (unsigned int i = 0; i < bufferSize; ++i)
-    {
-        *out++ = data->leftPhase * 0.5f;
-        *out++ = data->rightPhase * 0.5f;
-        data->leftPhase += 0.01f;
-        if (data->leftPhase >= 1.0f) data->leftPhase -= 2.0f;
-        data->rightPhase += 0.03f;
-        if (data->rightPhase >= 1.0f) data->rightPhase -= 2.0f;
-    }
+    float* out = static_cast<float*>(outputBuffer);
+
+    _this->fillBuffer(out, bufferSize);
 
     return 0;
 }
