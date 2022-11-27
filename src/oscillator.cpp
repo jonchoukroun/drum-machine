@@ -7,7 +7,7 @@ Oscillator::Oscillator(double s)
     calculatePhaseAcc();
 }
 
-void Oscillator::setFreq(const float f)
+void Oscillator::setFreq(const double f)
 {
     m_freq = f;
     calculatePhaseAcc();
@@ -29,7 +29,7 @@ float Oscillator::getSample()
 
     const auto i0 = static_cast<int>(idx);
     const auto i1 = static_cast<int>(std::ceil(idx)) % m_table.size();
-    const auto ilWeight = idx - static_cast<float>(i0);
+    const auto ilWeight = idx - static_cast<double>(i0);
     return static_cast<float>(m_amp) * static_cast<float>(
             m_table.at(i1) * ilWeight + (1.0 - ilWeight) * m_table.at(i0));
 }

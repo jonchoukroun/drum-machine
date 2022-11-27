@@ -12,8 +12,8 @@ class Oscillator
 public:
     Oscillator(double sampleRate);
 
-    void setAmp(const float amplitude) { m_amp = amplitude; };
-    void setFreq(const float freqquency);
+    void setAmp(const double amplitude) { m_amp = amplitude; };
+    void setFreq(const double freqquency);
 
     void play() { m_playing = true; };
     void stop();
