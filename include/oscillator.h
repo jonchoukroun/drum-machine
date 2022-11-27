@@ -12,13 +12,13 @@ class Oscillator
 public:
     Oscillator(double sampleRate);
 
-    void writeSamples(float* buffer, size_t bufferSize);
-
     void setAmp(const float amplitude) { m_amp = amplitude; };
     void setFreq(const float freqquency);
 
     void play() { m_playing = true; };
     void stop();
+
+    float getSample();
 
 private:
     double m_sampleRate;
@@ -36,5 +36,4 @@ private:
 
     void generateTable();
     void calculatePhaseAcc();
-    float getSample();
 };

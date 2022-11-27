@@ -76,7 +76,12 @@ void AudioEngine::stop()
 
 void AudioEngine::fillBuffer(float* buffer, size_t size)
 {
-    m_osc.writeSamples(buffer, size);
+    for (auto i = 0; i < size; ++i)
+    {
+        float s = m_osc.getSample();
+        *buffer++ = s;
+        *buffer++ = s;
+    }
 }
 
 int AudioEngine::PaStreamCallback(const void* inputBuffer,
