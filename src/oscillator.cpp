@@ -1,16 +1,27 @@
 #include "oscillator.h"
 
 Oscillator::Oscillator(double s)
-    : m_sampleRate((s))
+    : m_ampEnv(s)
+    , m_sampleRate((s))
 {
     generateTable();
     calculatePhaseAcc();
+    
+    m_ampEnv.setAttack(10);
+    m_ampEnv.setRelease(300);
+    m_ampEnv.setPeakAmp(0.8);
 }
 
 void Oscillator::setFreq(const double f)
 {
     m_freq = f;
     calculatePhaseAcc();
+}
+
+void Oscillator::play()
+{
+    m_playing = true;
+    m_ampEnv.trigger();
 }
 
 void Oscillator::stop()
@@ -21,17 +32,17 @@ void Oscillator::stop()
 
 float Oscillator::getSample()
 {
+    if (!m_ampEnv.isOn()) return 0.0;
+
     double idx = m_cursor;
     if (idx >= s_tableSize) idx -= s_tableSize;
+
+    float s = interpolate(idx);
 
     m_cursor += m_phaseAcc;
     if (m_cursor >= s_tableSize) m_cursor -= s_tableSize;
 
-    const auto i0 = static_cast<int>(idx);
-    const auto i1 = static_cast<int>(std::ceil(idx)) % m_table.size();
-    const auto ilWeight = idx - static_cast<double>(i0);
-    return static_cast<float>(m_amp) * static_cast<float>(
-            m_table.at(i1) * ilWeight + (1.0 - ilWeight) * m_table.at(i0));
+    return s * static_cast<float>(m_ampEnv.process());
 }
 
 void Oscillator::generateTable()
@@ -46,4 +57,13 @@ void Oscillator::generateTable()
 void Oscillator::calculatePhaseAcc()
 {
     m_phaseAcc = static_cast<double>(s_tableSize) * m_freq / m_sampleRate;
+}
+
+float Oscillator::interpolate(double i)
+{
+    const auto i0 = static_cast<int>(i);
+    const auto i1 = static_cast<int>(std::ceil(i)) % m_table.size();
+    const auto ilWeight = i - static_cast<double>(i0);
+    return static_cast<float>(m_amp) * static_cast<float>(
+            m_table.at(i1) * ilWeight + (1.0 - ilWeight) * m_table.at(i0));
 }

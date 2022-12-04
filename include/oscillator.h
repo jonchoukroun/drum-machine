@@ -7,6 +7,8 @@
 
 #include "portaudio.h"
 
+#include "amp_envelope.h"
+
 class Oscillator
 {
 public:
@@ -15,12 +17,14 @@ public:
     void setAmp(const double amplitude) { m_amp = amplitude; };
     void setFreq(const double freqquency);
 
-    void play() { m_playing = true; };
+    void play();
     void stop();
 
     float getSample();
 
 private:
+    AmpEnvelope m_ampEnv;
+
     double m_sampleRate;
 
     static constexpr int s_tableSize { 128 };
@@ -36,4 +40,5 @@ private:
 
     void generateTable();
     void calculatePhaseAcc();
+    float interpolate(double);
 };

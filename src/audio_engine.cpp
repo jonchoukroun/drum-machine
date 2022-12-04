@@ -54,6 +54,7 @@ void AudioEngine::play()
 {
     if (m_playing) return;
     m_playing = true;
+    m_osc.play();
 
     PaError err = Pa_StartStream(m_stream);
     if (err != paNoError)
@@ -66,6 +67,7 @@ void AudioEngine::stop()
 {
     if (!m_playing) return;
     m_playing = false;
+    m_osc.stop();
 
     PaError err = Pa_StopStream(m_stream);
     if (err != paNoError)
