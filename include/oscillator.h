@@ -8,6 +8,7 @@
 #include "portaudio.h"
 
 #include "amp_envelope.h"
+#include "pitch_envelope.h"
 
 class Oscillator
 {
@@ -24,13 +25,14 @@ public:
 
 private:
     AmpEnvelope m_ampEnv;
+    PitchEnvelope m_pitchEnv;
 
     double m_sampleRate;
 
     static constexpr int s_tableSize { 128 };
     std::array<double, s_tableSize> m_table;
 
-    double m_phaseAcc;
+    // double m_phaseAcc;
     double m_cursor;
 
     double m_amp { 0.7 };
@@ -39,6 +41,7 @@ private:
     bool m_playing { false };
 
     void generateTable();
-    void calculatePhaseAcc();
+    // void calculatePhaseAcc();
+    double calcPhaseAcc();
     float interpolate(double);
 };

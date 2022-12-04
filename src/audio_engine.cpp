@@ -26,6 +26,8 @@ bool AudioEngine::init()
         return false;
     }
 
+    m_osc.setFreq(80.0);
+
     return true;
 }
 

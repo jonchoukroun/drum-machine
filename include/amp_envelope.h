@@ -7,7 +7,6 @@ class AmpEnvelope
 {
 public:
     AmpEnvelope(double sampleRate);
-    ~AmpEnvelope();
 
     void setAttack(const double ms);
     void setRelease(const double ms);

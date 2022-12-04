@@ -2,15 +2,7 @@
 
 AmpEnvelope::AmpEnvelope(double s)
     : m_sampleRate(s)
-{
-    m_csv.open("amp_env.csv");
-    m_csv << "Amp\n";
-}
-
-AmpEnvelope::~AmpEnvelope()
-{
-    m_csv.close();
-}
+{}
 
 void AmpEnvelope::setAttack(const double ms)
 {
@@ -24,6 +16,9 @@ void AmpEnvelope::setRelease(const double ms)
     m_release = (ms / 1000.0) * m_sampleRate;
     m_releaseCoef = calcCoef(m_release, s_targetRatioR);
     m_releaseBase = (0 - s_targetRatioR) * (1.0 - m_releaseCoef);
+    std::cout << "amp rel = " << m_release;
+    std::cout << " amp coef = " << m_releaseCoef;
+    std::cout << " amp base = " << m_releaseBase << std::endl;
 }
 
 void AmpEnvelope::setStartAmp(const double a)
