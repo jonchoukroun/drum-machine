@@ -2,7 +2,6 @@
 
 #include <array>
 #include <cmath>
-#include <iostream>
 #include <memory>
 
 #include "portaudio.h"
@@ -10,10 +9,10 @@
 #include "amp_envelope.h"
 #include "pitch_envelope.h"
 
-class Oscillator
+class Kick
 {
 public:
-    Oscillator(double sampleRate);
+    Kick(double sampleRate);
 
     void setAmp(const double amplitude) { m_amp = amplitude; };
     void setFreq(const double freqquency);
@@ -32,7 +31,6 @@ private:
     static constexpr int s_tableSize { 128 };
     std::array<double, s_tableSize> m_table;
 
-    // double m_phaseAcc;
     double m_cursor;
 
     double m_amp { 0.7 };
@@ -41,7 +39,6 @@ private:
     bool m_playing { false };
 
     void generateTable();
-    // void calculatePhaseAcc();
     double calcPhaseAcc();
     float interpolate(double);
 };
