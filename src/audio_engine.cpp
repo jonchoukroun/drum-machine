@@ -1,7 +1,4 @@
 #include "audio_engine.h"
-#include "portaudio.h"
-#include <cmath>
-#include <memory>
 
 bool AudioEngine::init()
 {
@@ -25,8 +22,6 @@ bool AudioEngine::init()
         handlePaError("open default stream", streamErr);
         return false;
     }
-
-    m_osc.setFreq(80.0);
 
     return true;
 }
@@ -56,7 +51,6 @@ void AudioEngine::play()
 {
     if (m_playing) return;
     m_playing = true;
-    m_osc.play();
 
     PaError err = Pa_StartStream(m_stream);
     if (err != paNoError)
@@ -69,7 +63,6 @@ void AudioEngine::stop()
 {
     if (!m_playing) return;
     m_playing = false;
-    m_osc.stop();
 
     PaError err = Pa_StopStream(m_stream);
     if (err != paNoError)
@@ -82,7 +75,7 @@ void AudioEngine::fillBuffer(float* buffer, size_t size)
 {
     for (auto i = 0; i < size; ++i)
     {
-        float s = m_osc.getSample();
+        float s = 0.0;
         *buffer++ = s;
         *buffer++ = s;
     }

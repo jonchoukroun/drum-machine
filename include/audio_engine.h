@@ -6,8 +6,6 @@
 
 #include "portaudio.h"
 
-#include "oscillator.h"
-
 class AudioEngine
 {
 public:
@@ -17,7 +15,9 @@ public:
     void play();
     void stop();
 
-    bool isPlaying() const { return m_playing; };
+    inline bool isPlaying() const { return m_playing; };
+
+    inline double getSampleRate() const { return s_sampleRate; };
 
 private:
     // TODO: Move to Settings class
@@ -27,8 +27,6 @@ private:
     static constexpr double s_sampleRate { 44100.0 };
     static constexpr unsigned long s_bufferSize { 256 };
     static const PaSampleFormat s_format { paFloat32 };
-
-    Oscillator m_osc { s_sampleRate };
 
     PaStream* m_stream { nullptr };
 
