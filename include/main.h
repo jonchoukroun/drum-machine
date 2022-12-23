@@ -1,8 +1,6 @@
-#include <cstdlib>
-#include <iostream>
 #include <wx/wxprec.h>
 #ifndef WX_PRECOMP
-    #include <wx/wx.h>
+#include <wx/wx.h>
 #endif
 
 // Audio Components
@@ -15,7 +13,8 @@
 #include "transport.h"
 #include "volume_control.h"
 
-#include "string_constants.h"
+// Utilities
+#include "instrument.h"
 
 class DrumMachine : public wxApp
 {
@@ -30,7 +29,9 @@ private:
 class ParentFrame : public wxFrame
 {
 public:
-    ParentFrame(AudioEngine&);
+    ParentFrame(AudioEngine &);
+
+    void OnInstrumentSelect(wxCommandEvent &);
 
 private:
     InstrumentPicker m_instrumentPicker;
@@ -39,5 +40,3 @@ private:
     Transport m_transport;
     VolumeControl m_volumeControl;
 };
-
-

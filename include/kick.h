@@ -28,15 +28,15 @@ private:
 
     double m_sampleRate;
 
-    static constexpr int s_tableSize { 128 };
+    static constexpr int s_tableSize{128};
     std::array<double, s_tableSize> m_table;
 
     double m_cursor;
 
-    double m_amp { 0.7 };
-    double m_freq { 220.0 };
+    double m_amp{0.7};
+    double m_freq{220.0};
 
-    bool m_playing { false };
+    bool m_playing{false};
 
     void generateTable();
     double calcPhaseAcc();

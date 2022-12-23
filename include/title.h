@@ -10,16 +10,16 @@
 class Title
 {
 public:
-    Title(wxWindow*);
+    Title(wxWindow *);
 
-    wxBoxSizer* getSizer() const { return m_sizer; };
+    wxBoxSizer *getSizer() const { return m_sizer; };
 
 private:
-    wxBoxSizer* m_sizer { nullptr };
-    
-    wxFont* m_titleFont;
-    wxStaticText* m_title;
+    wxBoxSizer *m_sizer{nullptr};
 
-    wxFont* m_subtitleFont;
-    wxStaticText* m_subtitle;
+    wxFont *m_titleFont;
+    wxStaticText *m_title;
+
+    wxFont *m_subtitleFont;
+    wxStaticText *m_subtitle;
 };

@@ -45,11 +45,11 @@ private:
     double m_endPitch;
 
     // Normalized
-    double m_currentPitch { 1.0 };
+    double m_currentPitch{1.0};
 
-    double s_targetRatio { 0.001 };
+    double s_targetRatio{0.001};
 
-    bool m_triggered { false };
+    bool m_triggered{false};
 
     double calcCoef(double rate);
 };

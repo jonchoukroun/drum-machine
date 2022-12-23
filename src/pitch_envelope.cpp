@@ -2,7 +2,8 @@
 
 PitchEnvelope::PitchEnvelope(double s)
     : m_sampleRate(s)
-{}
+{
+}
 
 void PitchEnvelope::setRelease(const double ms)
 {

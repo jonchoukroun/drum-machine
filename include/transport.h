@@ -12,20 +12,20 @@
 class Transport
 {
 public:
-    Transport(wxWindow*, AudioEngine&);
+    Transport(wxWindow *, AudioEngine &);
 
-    wxBoxSizer* getSizer() const { return m_sizer; };
+    wxBoxSizer *getSizer() const { return m_sizer; };
 
 private:
-    AudioEngine& m_engine;
+    AudioEngine &m_engine;
 
-    wxStaticBoxSizer* m_sizer { nullptr };
+    wxStaticBoxSizer *m_sizer{nullptr};
 
-    wxBoxSizer* m_inputSizer { nullptr };
-    wxTextCtrl* m_tempoInput { nullptr };
-    wxStaticText* m_inputLabel { nullptr };
+    wxBoxSizer *m_inputSizer{nullptr};
+    wxTextCtrl *m_tempoInput{nullptr};
+    wxStaticText *m_inputLabel{nullptr};
 
-    wxBoxSizer* m_buttonsSizer { nullptr };
-    wxButton* m_playButton { nullptr };
-    wxButton* m_stopButton { nullptr };
+    wxBoxSizer *m_buttonsSizer{nullptr};
+    wxButton *m_playButton{nullptr};
+    wxButton *m_stopButton{nullptr};
 };

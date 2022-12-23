@@ -10,13 +10,13 @@ bool AudioEngine::init()
     }
 
     PaError streamErr = Pa_OpenDefaultStream(&m_stream,
-            s_inputChannels,
-            s_outputChannel,
-            s_format,
-            s_sampleRate,
-            s_bufferSize,
-            &PaStreamCallback,
-            this);
+                                             s_inputChannels,
+                                             s_outputChannel,
+                                             s_format,
+                                             s_sampleRate,
+                                             s_bufferSize,
+                                             &PaStreamCallback,
+                                             this);
     if (streamErr != paNoError)
     {
         handlePaError("open default stream", streamErr);
@@ -28,7 +28,8 @@ bool AudioEngine::init()
 
 bool AudioEngine::cleanup()
 {
-    if (m_playing) stop();
+    if (m_playing)
+        stop();
 
     PaError closeErr = Pa_CloseStream(m_stream);
     if (closeErr != paNoError)
@@ -49,7 +50,8 @@ bool AudioEngine::cleanup()
 
 void AudioEngine::play()
 {
-    if (m_playing) return;
+    if (m_playing)
+        return;
     m_playing = true;
 
     PaError err = Pa_StartStream(m_stream);
@@ -61,7 +63,8 @@ void AudioEngine::play()
 
 void AudioEngine::stop()
 {
-    if (!m_playing) return;
+    if (!m_playing)
+        return;
     m_playing = false;
 
     PaError err = Pa_StopStream(m_stream);
@@ -71,7 +74,7 @@ void AudioEngine::stop()
     }
 }
 
-void AudioEngine::fillBuffer(float* buffer, size_t size)
+void AudioEngine::fillBuffer(float *buffer, size_t size)
 {
     for (auto i = 0; i < size; ++i)
     {
@@ -81,19 +84,19 @@ void AudioEngine::fillBuffer(float* buffer, size_t size)
     }
 }
 
-int AudioEngine::PaStreamCallback(const void* inputBuffer,
-        void* outputBuffer,
-        unsigned long bufferSize,
-        const PaStreamCallbackTimeInfo* timeInfo,
-        PaStreamCallbackFlags statusFlags,
-        void* userData)
+int AudioEngine::PaStreamCallback(const void *inputBuffer,
+                                  void *outputBuffer,
+                                  unsigned long bufferSize,
+                                  const PaStreamCallbackTimeInfo *timeInfo,
+                                  PaStreamCallbackFlags statusFlags,
+                                  void *userData)
 {
-    AudioEngine* _this = static_cast<AudioEngine *>(userData);
+    AudioEngine *_this = static_cast<AudioEngine *>(userData);
     (void)inputBuffer;
     (void)timeInfo;
     (void)statusFlags;
 
-    float* out = static_cast<float*>(outputBuffer);
+    float *out = static_cast<float *>(outputBuffer);
 
     _this->fillBuffer(out, bufferSize);
 

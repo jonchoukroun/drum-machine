@@ -2,7 +2,8 @@
 
 AmpEnvelope::AmpEnvelope(double s)
     : m_sampleRate(s)
-{}
+{
+}
 
 void AmpEnvelope::setAttack(const double ms)
 {
