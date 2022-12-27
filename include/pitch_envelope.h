@@ -11,13 +11,13 @@ public:
     void setStartPitch(const double freq);
     void setEndPitch(const double freq);
 
-    inline void trigger()
+    void trigger()
     {
         m_triggered = true;
         m_currentPitch = (m_startPitch - m_endPitch) / m_startPitch;
     }
 
-    inline double getPitch()
+    double getPitch()
     {
         if (m_triggered)
         {
