@@ -24,8 +24,6 @@ void Kick::setFreq(const double f)
 
 void Kick::play()
 {
-    std::cout << "kick\n";
-
     m_cursor = 0.0f;
     m_ampEnv.trigger();
     m_pitchEnv.trigger();
@@ -34,7 +32,6 @@ void Kick::play()
 
 void Kick::stop()
 {
-    std::cout << "stop\n";
     m_playing = false;
     m_cursor = 0.0;
 }
