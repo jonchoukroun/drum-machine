@@ -33,7 +33,7 @@ void Kick::play()
 void Kick::stop()
 {
     m_playing = false;
-    m_cursor = 0.0;
+    m_cursor = 0.0f;
 }
 
 float Kick::getSample()

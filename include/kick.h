@@ -12,9 +12,9 @@
 class Kick
 {
 public:
-    Kick(double sampleRate);
+    Kick(const double sampleRate);
 
-    void setFreq(const double freqquency);
+    void setFreq(const double frequency);
 
     void play();
     void stop();
