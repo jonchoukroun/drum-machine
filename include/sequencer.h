@@ -13,13 +13,14 @@
 #include <string>
 #include <vector>
 
+#include "audio_engine.h"
 #include "instrument.h"
 #include "kick.h"
 
 class Sequencer
 {
 public:
-    Sequencer(wxWindow *, double sampleRate);
+    Sequencer(wxWindow *, AudioEngine &);
 
     wxStaticBoxSizer *getSizer() const { return m_sizer; };
 
@@ -31,31 +32,9 @@ private:
     wxWindow *m_parent;
     wxStaticBoxSizer *m_sizer{nullptr};
 
-    static constexpr int s_seqSize{16};
-    using Voice = std::array<bool, s_seqSize>;
-    Voice m_kicks;
-    Voice m_snares;
-    Voice m_hats;
+    AudioEngine &m_engine;
 
     Instrument m_selectedInstrument{Instrument::Kick};
-
-    inline Voice &getSelectedVoice()
-    {
-        switch (m_selectedInstrument)
-        {
-        case Instrument::Kick:
-            return m_kicks;
-        case Instrument::Snare:
-            return m_snares;
-        case Instrument::ClosedHats:
-            return m_hats;
-        default:
-            std::cout << "Error! Tried to get voice from invalid instrument\n";
-            return m_kicks;
-        }
-    }
-
-    double m_sampleRate;
 
     wxBitmap *s_buttonOnImg;
     wxBitmap *s_buttonOffImg;
@@ -63,10 +42,8 @@ private:
 
     void toggleBeat(wxCommandEvent &);
 
-    void initVoices();
-
     wxString getButtonLabel(const size_t) const;
     wxString getButtonLabel(wxString) const;
 
-    void initSizerButtons(Voice &);
+    void initSizerButtons(AudioEngine::Voice &);
 };

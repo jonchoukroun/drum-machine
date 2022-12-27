@@ -1,7 +1,8 @@
 #include "sequencer.h"
 
-Sequencer::Sequencer(wxWindow *parent, double sampleRate)
-    : m_parent(parent), m_sizer(new wxStaticBoxSizer(wxHORIZONTAL, parent)), m_sampleRate(sampleRate)
+Sequencer::Sequencer(wxWindow *parent, AudioEngine &engine)
+    : m_parent(parent), m_sizer(new wxStaticBoxSizer(wxHORIZONTAL, parent)),
+      m_engine(engine)
 {
     std::cout << "Sequencer constructor called\n";
     wxImage::AddHandler(new wxPNGHandler);
@@ -12,9 +13,7 @@ Sequencer::Sequencer(wxWindow *parent, double sampleRate)
         "/Users/jonchoukroun/Developer/SoundLab/DrumMachine/assets/seq_button_off.png",
         wxBITMAP_TYPE_PNG);
 
-    initVoices();
-
-    initSizerButtons(getSelectedVoice());
+    initSizerButtons(m_engine.getVoiceFromInst(m_selectedInstrument));
 }
 
 void Sequencer::setInstrument(const Instrument i)
@@ -26,7 +25,7 @@ void Sequencer::setInstrument(const Instrument i)
 void Sequencer::toggleBeat(wxCommandEvent &ev)
 {
     int i = ev.GetId();
-    Voice &voice = getSelectedVoice();
+    AudioEngine::Voice &voice = m_engine.getVoiceFromInst(m_selectedInstrument);
     bool isSet = voice.at(i);
     if (isSet)
     {
@@ -41,7 +40,7 @@ void Sequencer::toggleBeat(wxCommandEvent &ev)
 
 void Sequencer::updateSizer()
 {
-    const Voice &v = getSelectedVoice();
+    const AudioEngine::Voice &v = m_engine.getVoiceFromInst(m_selectedInstrument);
     const auto sizerCount = m_sizer->GetItemCount();
     for (auto i = 0; i != sizerCount; ++i)
     {
@@ -78,9 +77,9 @@ void Sequencer::updateSizer()
     m_parent->Layout();
 }
 
-void Sequencer::initSizerButtons(Voice &v)
+void Sequencer::initSizerButtons(AudioEngine::Voice &v)
 {
-    for (auto i = 0; i != s_seqSize; ++i)
+    for (auto i = 0; i != m_engine.getSeqSize(); ++i)
     {
         wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
         const wxBitmap *bmp;
@@ -133,38 +132,5 @@ wxString Sequencer::getButtonLabel(wxString s) const
 
     wxString *label = new wxString("<span color='white'><big>");
     wxString *end = new wxString("</big></span>");
-    wxString x = *label + s + *end;
-    std::cout << "x: " << x << '\n';
-    return x;
-}
-
-void Sequencer::initVoices()
-{
-    // TODO remove after using actual Voice type
-    std::cout << m_sampleRate << std::endl;
-    m_kicks.fill(false);
-    m_snares.fill(false);
-    m_hats.fill(false);
-
-    for (auto i = 0; i < s_seqSize; ++i)
-    {
-        if (i == 0 || i == 6)
-        {
-            m_kicks.at(i) = true;
-            m_snares.at(i) = false;
-            m_hats.at(i) = true;
-        }
-        else if (i == 4 || i == 12)
-        {
-            m_kicks.at(i) = false;
-            m_snares.at(i) = true;
-            m_hats.at(i) = true;
-        }
-        else
-        {
-            m_kicks.at(i) = false;
-            m_snares.at(i) = false;
-            m_hats.at(i) = true;
-        }
-    }
+    return *label + s + *end;
 }

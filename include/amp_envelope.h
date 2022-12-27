@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cmath>
+#include <iostream>
 
 class AmpEnvelope
 {
@@ -13,47 +14,16 @@ public:
     void setPeakAmp(const double amp);
     void setEndAmp(const double amp);
 
-    inline void trigger()
+    void trigger()
     {
         m_state = State::ATTACK;
         m_output = m_startAmp;
         m_isFirstSample = true;
     }
 
-    inline bool isOn() { return m_state != State::OFF; };
+    bool isOn() { return m_state != State::OFF; };
 
-    inline double process()
-    {
-        if (m_isFirstSample)
-        {
-            m_isFirstSample = false;
-            return m_output;
-        }
-
-        switch (m_state)
-        {
-        case State::OFF:
-            break;
-        case State::ATTACK:
-            m_output = m_attackBase + m_output * m_attackCoef;
-            if (m_output >= m_peakAmp)
-            {
-                m_output = m_peakAmp;
-                m_state = State::RELEASE;
-            }
-            break;
-        case State::RELEASE:
-            m_output = m_releaseBase + m_output * m_releaseCoef;
-            if (m_output <= m_endAmp)
-            {
-                m_output = m_endAmp;
-                m_state = State::OFF;
-            }
-            break;
-        }
-
-        return m_output;
-    }
+    double process();
 
 private:
     enum class State

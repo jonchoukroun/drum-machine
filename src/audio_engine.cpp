@@ -23,6 +23,10 @@ bool AudioEngine::init()
         return false;
     }
 
+    adjustBeatDuration();
+
+    initVoices();
+
     return true;
 }
 
@@ -52,12 +56,18 @@ void AudioEngine::play()
 {
     if (m_playing)
         return;
+
+    m_counter = 0.0f;
+    m_seqCursor = 0;
     m_playing = true;
+
+    triggerInstruments();
 
     PaError err = Pa_StartStream(m_stream);
     if (err != paNoError)
     {
         handlePaError("play", err);
+        return;
     }
 }
 
@@ -65,7 +75,12 @@ void AudioEngine::stop()
 {
     if (!m_playing)
         return;
+
+    m_counter = 0.0f;
+    m_seqCursor = 0;
     m_playing = false;
+
+    m_kick.stop();
 
     PaError err = Pa_StopStream(m_stream);
     if (err != paNoError)
@@ -78,9 +93,11 @@ void AudioEngine::fillBuffer(float *buffer, size_t size)
 {
     for (auto i = 0; i < size; ++i)
     {
-        float s = 0.0;
+        float s = m_kick.getSample();
         *buffer++ = s;
         *buffer++ = s;
+
+        incrementCounters();
     }
 }
 
@@ -103,8 +120,67 @@ int AudioEngine::PaStreamCallback(const void *inputBuffer,
     return 0;
 }
 
+void AudioEngine::adjustBeatDuration()
+{
+    m_beatDuration = (15.0f / static_cast<float>(m_tempo)) * s_sampleRate;
+}
+
+void AudioEngine::incrementCounters()
+{
+    ++m_counter;
+    if (m_counter >= m_beatDuration)
+    {
+        m_counter = 0.0f;
+        ++m_seqCursor;
+        if (m_seqCursor == s_seqSize)
+            m_seqCursor = 0;
+
+        triggerInstruments();
+    }
+}
+
+void AudioEngine::triggerInstruments()
+{
+    if (m_kicks.at(m_seqCursor))
+        m_kick.play();
+}
+
+void AudioEngine::clearInstruments()
+{
+    m_kick.stop();
+}
+
 void AudioEngine::handlePaError(std::string name, PaError e)
 {
     std::cout << "PortAudio failed during " << name;
     std::cout << "Error: " << e << std::endl;
+}
+
+void AudioEngine::initVoices()
+{
+    m_kicks.fill(false);
+    m_snares.fill(false);
+    m_hats.fill(false);
+
+    for (auto i = 0; i < s_seqSize; ++i)
+    {
+        if (i == 0 || i == 6 || i == 8)
+        {
+            m_kicks.at(i) = true;
+            m_snares.at(i) = false;
+            m_hats.at(i) = true;
+        }
+        else if (i == 4 || i == 12)
+        {
+            m_kicks.at(i) = false;
+            m_snares.at(i) = true;
+            m_hats.at(i) = true;
+        }
+        else
+        {
+            m_kicks.at(i) = false;
+            m_snares.at(i) = false;
+            m_hats.at(i) = true;
+        }
+    }
 }

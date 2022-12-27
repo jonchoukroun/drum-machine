@@ -35,6 +35,39 @@ void AmpEnvelope::setEndAmp(const double a)
     m_endAmp = a;
 }
 
+double AmpEnvelope::process()
+{
+    if (m_isFirstSample)
+    {
+        m_isFirstSample = false;
+        return m_output;
+    }
+
+    switch (m_state)
+    {
+    case State::OFF:
+        break;
+    case State::ATTACK:
+        m_output = m_attackBase + m_output * m_attackCoef;
+        if (m_output >= m_peakAmp)
+        {
+            m_output = m_peakAmp;
+            m_state = State::RELEASE;
+        }
+        break;
+    case State::RELEASE:
+        m_output = m_releaseBase + m_output * m_releaseCoef;
+        if (m_output <= m_endAmp)
+        {
+            m_output = m_endAmp;
+            m_state = State::OFF;
+        }
+        break;
+    }
+
+    return m_output;
+}
+
 double AmpEnvelope::calcCoef(double rate, double targetRatio)
 {
     if (rate <= 0)

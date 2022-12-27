@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "kick.h"
 
 Kick::Kick(double s)
@@ -21,13 +23,17 @@ void Kick::setFreq(const double f)
 
 void Kick::play()
 {
-    m_playing = true;
+    std::cout << "kick\n";
+
+    m_cursor = 0.0f;
     m_ampEnv.trigger();
     m_pitchEnv.trigger();
+    m_playing = true;
 }
 
 void Kick::stop()
 {
+    std::cout << "stop\n";
     m_playing = false;
     m_cursor = 0.0;
 }
@@ -42,6 +48,7 @@ float Kick::getSample()
         idx -= s_tableSize;
 
     float s = interpolate(idx);
+    // float s = 0.0f;
 
     m_cursor += calcPhaseAcc();
     if (m_cursor >= s_tableSize)
@@ -60,7 +67,7 @@ void Kick::generateTable()
 
 double Kick::calcPhaseAcc()
 {
-    return static_cast<double>(s_tableSize) * m_pitchEnv.getPitch() / m_sampleRate;
+    return static_cast<double>(s_tableSize) * m_freq / m_sampleRate;
 }
 
 float Kick::interpolate(double i)
@@ -68,6 +75,5 @@ float Kick::interpolate(double i)
     const auto i0 = static_cast<int>(i);
     const auto i1 = static_cast<int>(std::ceil(i)) % m_table.size();
     const auto ilWeight = i - static_cast<double>(i0);
-    return static_cast<float>(m_amp) * static_cast<float>(
-                                           m_table.at(i1) * ilWeight + (1.0 - ilWeight) * m_table.at(i0));
+    return static_cast<float>(m_table.at(i1) * ilWeight + (1.0 - ilWeight) * m_table.at(i0));
 }

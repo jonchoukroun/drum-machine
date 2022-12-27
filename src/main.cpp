@@ -26,7 +26,7 @@ int DrumMachine::OnExit()
 ParentFrame::ParentFrame(AudioEngine &engine)
     : wxFrame(NULL, wxID_ANY, APP_TITLE, wxDefaultPosition, wxSize(800, 600),
               wxDEFAULT_FRAME_STYLE, "parent-frame"),
-      m_instrumentPicker(this), m_sequencer(this, engine.getSampleRate()),
+      m_instrumentPicker(this), m_sequencer(this, engine),
       m_title(this), m_transport(this, engine), m_volumeControl(this)
 
 {
