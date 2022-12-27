@@ -14,7 +14,7 @@
 #include "volume_control.h"
 
 // Utilities
-#include "instrument.h"
+#include "voice.h"
 
 class DrumMachine : public wxApp
 {

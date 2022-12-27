@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 
-#include "instrument.h"
+#include "voice.h"
 #include "string_constants.h"
 
 class InstrumentPicker

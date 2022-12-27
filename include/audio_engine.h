@@ -7,7 +7,7 @@
 
 #include "portaudio.h"
 
-#include "instrument.h"
+#include "voice.h"
 #include "kick.h"
 
 class AudioEngine
@@ -30,15 +30,15 @@ public:
     static constexpr int s_seqSize{16};
     using Voice = std::array<bool, s_seqSize>;
 
-    Voice &getVoiceFromInst(Instrument &inst)
+    Voice &getVoiceFromInst(VoiceName &inst)
     {
         switch (inst)
         {
-        case Instrument::Kick:
+        case VoiceName::Kick:
             return m_kicks;
-        case Instrument::Snare:
+        case VoiceName::Snare:
             return m_snares;
-        case Instrument::ClosedHats:
+        case VoiceName::ClosedHats:
             return m_hats;
         default:
             std::cout << "Error! Tried to get voice from invalid instrument\n";

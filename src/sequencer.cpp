@@ -16,7 +16,7 @@ Sequencer::Sequencer(wxWindow *parent, AudioEngine &engine)
     initSizerButtons(m_engine.getVoiceFromInst(m_selectedInstrument));
 }
 
-void Sequencer::setInstrument(const Instrument i)
+void Sequencer::setInstrument(const VoiceName i)
 {
     m_selectedInstrument = i;
     updateSizer();

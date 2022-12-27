@@ -14,7 +14,7 @@
 #include <vector>
 
 #include "audio_engine.h"
-#include "instrument.h"
+#include "voice.h"
 #include "kick.h"
 
 class Sequencer
@@ -24,7 +24,7 @@ public:
 
     wxStaticBoxSizer *getSizer() const { return m_sizer; };
 
-    void setInstrument(const Instrument i);
+    void setInstrument(const VoiceName i);
 
     void updateSizer();
 
@@ -34,7 +34,7 @@ private:
 
     AudioEngine &m_engine;
 
-    Instrument m_selectedInstrument{Instrument::Kick};
+    VoiceName m_selectedInstrument{VoiceName::Kick};
 
     wxBitmap *s_buttonOnImg;
     wxBitmap *s_buttonOffImg;
