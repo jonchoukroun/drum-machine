@@ -8,10 +8,10 @@ Kick::Kick(double s)
     generateTable();
 
     m_ampEnv.setAttack(10);
-    m_ampEnv.setRelease(400);
+    m_ampEnv.setRelease(300);
     m_ampEnv.setPeakAmp(0.8);
 
-    m_pitchEnv.setRelease(10);
+    m_pitchEnv.setRelease(8);
     setFreq(m_freq);
 }
 

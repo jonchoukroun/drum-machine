@@ -14,7 +14,6 @@ class Kick
 public:
     Kick(double sampleRate);
 
-    void setAmp(const double amplitude) { m_amp = amplitude; };
     void setFreq(const double freqquency);
 
     void play();
@@ -33,8 +32,7 @@ private:
 
     double m_cursor;
 
-    double m_amp{0.7};
-    double m_freq{220.0};
+    double m_freq{50.0};
 
     bool m_playing{false};
 
