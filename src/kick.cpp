@@ -11,7 +11,8 @@ Kick::Kick(double s)
     m_ampEnv.setRelease(400);
     m_ampEnv.setPeakAmp(0.8);
 
-    m_pitchEnv.setRelease(30);
+    m_pitchEnv.setRelease(10);
+    setFreq(m_freq);
 }
 
 void Kick::setFreq(const double f)
@@ -67,7 +68,7 @@ void Kick::generateTable()
 
 double Kick::calcPhaseAcc()
 {
-    return static_cast<double>(s_tableSize) * m_freq / m_sampleRate;
+    return static_cast<double>(s_tableSize) * m_pitchEnv.getPitch() / m_sampleRate;
 }
 
 float Kick::interpolate(double i)
