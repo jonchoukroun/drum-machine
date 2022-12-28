@@ -5,3 +5,6 @@
 bin/*
 build/*
 complile_commands.json
+
+// Misc
+.DS_Store
