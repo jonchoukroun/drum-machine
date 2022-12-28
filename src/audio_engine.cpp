@@ -80,7 +80,7 @@ void AudioEngine::stop()
     m_seqCursor = 0;
     m_playing = false;
 
-    m_kick.stop();
+    clearInstruments();
 
     PaError err = Pa_StopStream(m_stream);
     if (err != paNoError)
@@ -93,9 +93,11 @@ void AudioEngine::fillBuffer(float* buffer, size_t size)
 {
     for (auto i = 0; i < size; ++i)
     {
-        float s = m_kick.getSample();
-        *buffer++ = s;
-        *buffer++ = s;
+        float k = m_kick.getSample();
+        float s = m_snare.getSample();
+        float sample = (k + s) / 2.0f;
+        *buffer++ = sample;
+        *buffer++ = sample;
 
         incrementCounters();
     }
@@ -143,9 +145,16 @@ void AudioEngine::triggerInstruments()
 {
     if (m_kicks.at(m_seqCursor))
         m_kick.play();
+
+    if (m_snares.at(m_seqCursor))
+        m_snare.play();
 }
 
-void AudioEngine::clearInstruments() { m_kick.stop(); }
+void AudioEngine::clearInstruments()
+{
+    m_kick.stop();
+    m_snare.stop();
+}
 
 void AudioEngine::handlePaError(std::string name, PaError e)
 {

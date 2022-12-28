@@ -8,6 +8,7 @@
 #include "portaudio.h"
 
 #include "kick.h"
+#include "snare.h"
 #include "voice.h"
 
 class AudioEngine
@@ -62,6 +63,7 @@ private:
     Beats m_hats;
 
     Kick m_kick{s_sampleRate};
+    Snare m_snare{s_sampleRate};
 
     bool m_playing{false};
 
