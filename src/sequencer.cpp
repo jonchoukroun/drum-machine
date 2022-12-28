@@ -54,30 +54,7 @@ void Sequencer::updateSizer()
         sizer->Clear(true);
 
         wxBoxSizer* newSizer = new wxBoxSizer(wxVERTICAL);
-
-        const wxBitmap* bmp;
-        if (b.at(i))
-        {
-            bmp = s_buttonOnImg;
-        }
-        else
-        {
-            bmp = s_buttonOffImg;
-        }
-
-        wxBitmapButton* button = new wxBitmapButton(m_parent,
-                                                    i,
-                                                    *bmp,
-                                                    wxDefaultPosition,
-                                                    *s_buttonSize);
-        button->Bind(wxEVT_BUTTON,
-                     &Sequencer::toggleBeat,
-                     this,
-                     button->GetId());
-        button->SetLabelMarkup(getButtonLabel(i));
-
-        newSizer->Add(button, wxSizerFlags(0).Expand());
-
+        buildButton(newSizer, i, b.at(i));
         m_sizer->Replace(sizer, newSizer);
     }
     m_parent->Layout();
@@ -88,29 +65,33 @@ void Sequencer::initSizerButtons(AudioEngine::Beats& b)
     for (auto i = 0; i != m_engine.getSeqSize(); ++i)
     {
         wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
-        const wxBitmap* bmp;
-        if (b.at(i))
-        {
-            bmp = s_buttonOnImg;
-        }
-        else
-        {
-            bmp = s_buttonOffImg;
-        }
-        wxBitmapButton* button = new wxBitmapButton(m_parent,
-                                                    i,
-                                                    *bmp,
-                                                    wxDefaultPosition,
-                                                    *s_buttonSize);
-        button->Bind(wxEVT_BUTTON,
-                     &Sequencer::toggleBeat,
-                     this,
-                     button->GetId());
-        button->SetLabelMarkup(getButtonLabel(i));
-
-        sizer->Add(button, wxSizerFlags(0).Expand());
+        buildButton(sizer, i, b.at(i));
         m_sizer->Add(sizer);
     }
+}
+
+void Sequencer::buildButton(wxBoxSizer* sizer, size_t i, bool on)
+{
+    const wxBitmap* bmp;
+    if (on)
+    {
+        bmp = s_buttonOnImg;
+    }
+    else
+    {
+        bmp = s_buttonOffImg;
+    }
+
+    wxBitmapButton* button = new wxBitmapButton(m_parent,
+                                                i,
+                                                *bmp,
+                                                wxDefaultPosition,
+                                                *s_buttonSize,
+                                                wxBORDER_NONE);
+    button->Bind(wxEVT_BUTTON, &Sequencer::toggleBeat, this, button->GetId());
+    button->SetLabelMarkup(getButtonLabel(i));
+
+    sizer->Add(button, wxSizerFlags(0).Expand().Border(wxALL, 1));
 }
 
 wxString Sequencer::getButtonLabel(const size_t i) const
@@ -139,7 +120,8 @@ wxString Sequencer::getButtonLabel(const size_t i) const
 wxString Sequencer::getButtonLabel(wxString s) const
 {
 
-    wxString* label = new wxString("<span color='white'><big>");
+    wxString* label
+        = new wxString("<span color='white' background='transparent'><big>");
     wxString* end = new wxString("</big></span>");
     return *label + s + *end;
 }

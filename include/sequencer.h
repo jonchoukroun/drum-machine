@@ -46,4 +46,6 @@ private:
     wxString getButtonLabel(wxString) const;
 
     void initSizerButtons(AudioEngine::Beats&);
+
+    void buildButton(wxBoxSizer*, size_t index, bool isOn);
 };
