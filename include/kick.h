@@ -2,7 +2,6 @@
 
 #include <array>
 #include <cmath>
-#include <memory>
 
 #include "portaudio.h"
 

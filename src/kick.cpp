@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "kick.h"
 
 Kick::Kick(double s) : m_ampEnv(s), m_pitchEnv(s), m_sampleRate((s))
@@ -45,7 +43,6 @@ float Kick::getSample()
         idx -= s_tableSize;
 
     float s = interpolate(idx);
-    // float s = 0.0f;
 
     m_cursor += calcPhaseAcc();
     if (m_cursor >= s_tableSize)
