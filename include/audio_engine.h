@@ -7,8 +7,8 @@
 
 #include "portaudio.h"
 
-#include "voice.h"
 #include "kick.h"
+#include "voice.h"
 
 class AudioEngine
 {
@@ -30,7 +30,7 @@ public:
     static constexpr int s_seqSize{16};
     using Voice = std::array<bool, s_seqSize>;
 
-    Voice &getVoiceFromInst(VoiceName &inst)
+    Voice& getVoiceFromInst(VoiceName& inst)
     {
         switch (inst)
         {
@@ -55,7 +55,7 @@ private:
     static constexpr unsigned long s_bufferSize{256};
     static const PaSampleFormat s_format{paFloat32};
 
-    PaStream *m_stream{nullptr};
+    PaStream* m_stream{nullptr};
 
     Voice m_kicks;
     Voice m_snares;
@@ -70,14 +70,14 @@ private:
     float m_counter{0.0f};
     size_t m_seqCursor{0};
 
-    static int PaStreamCallback(const void *inputBuffer,
-                                void *outputBuffer,
+    static int PaStreamCallback(const void* inputBuffer,
+                                void* outputBuffer,
                                 unsigned long bufferSize,
-                                const PaStreamCallbackTimeInfo *timeInfo,
+                                const PaStreamCallbackTimeInfo* timeInfo,
                                 PaStreamCallbackFlags statusFlags,
-                                void *userData);
+                                void* userData);
 
-    void fillBuffer(float *buffer, size_t bufferSize);
+    void fillBuffer(float* buffer, size_t bufferSize);
 
     void adjustBeatDuration();
 

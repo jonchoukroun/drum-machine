@@ -1,9 +1,6 @@
 #include "amp_envelope.h"
 
-AmpEnvelope::AmpEnvelope(double s)
-    : m_sampleRate(s)
-{
-}
+AmpEnvelope::AmpEnvelope(double s) : m_sampleRate(s) {}
 
 void AmpEnvelope::setAttack(const double ms)
 {
@@ -25,15 +22,9 @@ void AmpEnvelope::setStartAmp(const double a)
     m_output = a;
 }
 
-void AmpEnvelope::setPeakAmp(const double a)
-{
-    m_peakAmp = a;
-}
+void AmpEnvelope::setPeakAmp(const double a) { m_peakAmp = a; }
 
-void AmpEnvelope::setEndAmp(const double a)
-{
-    m_endAmp = a;
-}
+void AmpEnvelope::setEndAmp(const double a) { m_endAmp = a; }
 
 double AmpEnvelope::process()
 {

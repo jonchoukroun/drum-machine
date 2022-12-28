@@ -1,9 +1,6 @@
 #include "snare.h"
 
-Instrument::Instrument(double s)
-    : m_sampleRate(s),
-      m_ampEnv(s),
-      m_pitchEnv(s)
+Instrument::Instrument(double s) : m_sampleRate(s), m_ampEnv(s), m_pitchEnv(s)
 {
     generateTable();
     m_ampEnv.setAttack(10);

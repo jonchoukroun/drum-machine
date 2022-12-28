@@ -1,19 +1,13 @@
 #include "pitch_envelope.h"
 
-PitchEnvelope::PitchEnvelope(double s)
-    : m_sampleRate(s)
-{
-}
+PitchEnvelope::PitchEnvelope(double s) : m_sampleRate(s) {}
 
 void PitchEnvelope::setRelease(const double ms)
 {
     m_release = (ms / 1000.0) * m_sampleRate;
 }
 
-void PitchEnvelope::setStartPitch(const double freq)
-{
-    m_startPitch = freq;
-}
+void PitchEnvelope::setStartPitch(const double freq) { m_startPitch = freq; }
 
 void PitchEnvelope::setEndPitch(const double freq)
 {
@@ -31,6 +25,7 @@ double PitchEnvelope::calcCoef(double rate)
     else
     {
         double distance = (m_startPitch - m_endPitch) / m_startPitch;
-        return std::exp(-std::log((distance + s_targetRatio) / s_targetRatio) / rate);
+        return std::exp(-std::log((distance + s_targetRatio) / s_targetRatio)
+                        / rate);
     }
 }

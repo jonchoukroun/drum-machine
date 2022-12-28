@@ -1,17 +1,18 @@
 #include "sequencer.h"
 
-Sequencer::Sequencer(wxWindow *parent, AudioEngine &engine)
-    : m_parent(parent), m_sizer(new wxStaticBoxSizer(wxHORIZONTAL, parent)),
-      m_engine(engine)
+Sequencer::Sequencer(wxWindow* parent, AudioEngine& engine)
+    : m_parent(parent)
+    , m_sizer(new wxStaticBoxSizer(wxHORIZONTAL, parent))
+    , m_engine(engine)
 {
     std::cout << "Sequencer constructor called\n";
     wxImage::AddHandler(new wxPNGHandler);
-    s_buttonOnImg = new wxBitmap(
-        "/Users/jonchoukroun/Developer/SoundLab/DrumMachine/assets/seq_button_on.png",
-        wxBITMAP_TYPE_PNG);
-    s_buttonOffImg = new wxBitmap(
-        "/Users/jonchoukroun/Developer/SoundLab/DrumMachine/assets/seq_button_off.png",
-        wxBITMAP_TYPE_PNG);
+    s_buttonOnImg = new wxBitmap("/Users/jonchoukroun/Developer/SoundLab/"
+                                 "DrumMachine/assets/seq_button_on.png",
+                                 wxBITMAP_TYPE_PNG);
+    s_buttonOffImg = new wxBitmap("/Users/jonchoukroun/Developer/SoundLab/"
+                                  "DrumMachine/assets/seq_button_off.png",
+                                  wxBITMAP_TYPE_PNG);
 
     initSizerButtons(m_engine.getVoiceFromInst(m_selectedInstrument));
 }
@@ -22,10 +23,10 @@ void Sequencer::setInstrument(const VoiceName i)
     updateSizer();
 }
 
-void Sequencer::toggleBeat(wxCommandEvent &ev)
+void Sequencer::toggleBeat(wxCommandEvent& ev)
 {
     int i = ev.GetId();
-    AudioEngine::Voice &voice = m_engine.getVoiceFromInst(m_selectedInstrument);
+    AudioEngine::Voice& voice = m_engine.getVoiceFromInst(m_selectedInstrument);
     bool isSet = voice.at(i);
     if (isSet)
     {
@@ -40,19 +41,20 @@ void Sequencer::toggleBeat(wxCommandEvent &ev)
 
 void Sequencer::updateSizer()
 {
-    const AudioEngine::Voice &v = m_engine.getVoiceFromInst(m_selectedInstrument);
+    const AudioEngine::Voice& v
+        = m_engine.getVoiceFromInst(m_selectedInstrument);
     const auto sizerCount = m_sizer->GetItemCount();
     for (auto i = 0; i != sizerCount; ++i)
     {
         assert(i != v.size());
 
-        wxSizerItem *item = m_sizer->GetItem(i);
-        wxBoxSizer *sizer = static_cast<wxBoxSizer *>(item->GetSizer());
+        wxSizerItem* item = m_sizer->GetItem(i);
+        wxBoxSizer* sizer = static_cast<wxBoxSizer*>(item->GetSizer());
         sizer->Clear(true);
 
-        wxBoxSizer *newSizer = new wxBoxSizer(wxVERTICAL);
+        wxBoxSizer* newSizer = new wxBoxSizer(wxVERTICAL);
 
-        const wxBitmap *bmp;
+        const wxBitmap* bmp;
         if (v.at(i))
         {
             bmp = s_buttonOnImg;
@@ -62,8 +64,11 @@ void Sequencer::updateSizer()
             bmp = s_buttonOffImg;
         }
 
-        wxBitmapButton *button = new wxBitmapButton(m_parent,
-                                                    i, *bmp, wxDefaultPosition, *s_buttonSize);
+        wxBitmapButton* button = new wxBitmapButton(m_parent,
+                                                    i,
+                                                    *bmp,
+                                                    wxDefaultPosition,
+                                                    *s_buttonSize);
         button->Bind(wxEVT_BUTTON,
                      &Sequencer::toggleBeat,
                      this,
@@ -77,12 +82,12 @@ void Sequencer::updateSizer()
     m_parent->Layout();
 }
 
-void Sequencer::initSizerButtons(AudioEngine::Voice &v)
+void Sequencer::initSizerButtons(AudioEngine::Voice& v)
 {
     for (auto i = 0; i != m_engine.getSeqSize(); ++i)
     {
-        wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
-        const wxBitmap *bmp;
+        wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
+        const wxBitmap* bmp;
         if (v.at(i))
         {
             bmp = s_buttonOnImg;
@@ -91,8 +96,11 @@ void Sequencer::initSizerButtons(AudioEngine::Voice &v)
         {
             bmp = s_buttonOffImg;
         }
-        wxBitmapButton *button = new wxBitmapButton(m_parent,
-                                                    i, *bmp, wxDefaultPosition, *s_buttonSize);
+        wxBitmapButton* button = new wxBitmapButton(m_parent,
+                                                    i,
+                                                    *bmp,
+                                                    wxDefaultPosition,
+                                                    *s_buttonSize);
         button->Bind(wxEVT_BUTTON,
                      &Sequencer::toggleBeat,
                      this,
@@ -130,7 +138,7 @@ wxString Sequencer::getButtonLabel(const size_t i) const
 wxString Sequencer::getButtonLabel(wxString s) const
 {
 
-    wxString *label = new wxString("<span color='white'><big>");
-    wxString *end = new wxString("</big></span>");
+    wxString* label = new wxString("<span color='white'><big>");
+    wxString* end = new wxString("</big></span>");
     return *label + s + *end;
 }

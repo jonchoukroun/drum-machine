@@ -8,7 +8,7 @@ bool DrumMachine::OnInit()
     if (!m_engine.init())
         return false;
 
-    ParentFrame *frame = new ParentFrame(m_engine);
+    ParentFrame* frame = new ParentFrame(m_engine);
     frame->Show(true);
     return true;
 }
@@ -23,31 +23,38 @@ int DrumMachine::OnExit()
     return EXIT_SUCCESS;
 }
 
-ParentFrame::ParentFrame(AudioEngine &engine)
-    : wxFrame(NULL, wxID_ANY, APP_TITLE, wxDefaultPosition, wxSize(800, 600),
-              wxDEFAULT_FRAME_STYLE, "parent-frame"),
-      m_instrumentPicker(this), m_sequencer(this, engine),
-      m_title(this), m_transport(this, engine), m_volumeControl(this)
+ParentFrame::ParentFrame(AudioEngine& engine)
+    : wxFrame(NULL,
+              wxID_ANY,
+              APP_TITLE,
+              wxDefaultPosition,
+              wxSize(800, 600),
+              wxDEFAULT_FRAME_STYLE,
+              "parent-frame")
+    , m_instrumentPicker(this)
+    , m_sequencer(this, engine)
+    , m_title(this)
+    , m_transport(this, engine)
+    , m_volumeControl(this)
 
 {
-    wxMenu *menuFile = new wxMenu;
+    wxMenu* menuFile = new wxMenu;
     menuFile->Append(wxID_EXIT);
-    Bind(wxEVT_MENU, [=](wxCommandEvent &)
-         { Close(true); });
+    Bind(wxEVT_MENU, [=](wxCommandEvent&) { Close(true); });
 
-    wxMenuBar *menuBar = new wxMenuBar;
+    wxMenuBar* menuBar = new wxMenuBar;
     menuBar->Append(menuFile, "&File");
     SetMenuBar(menuBar);
 
-    wxBoxSizer *mainSizer = new wxBoxSizer(wxVERTICAL);
+    wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);
 
     // Title
     mainSizer->Add(m_title.getSizer(),
                    wxSizerFlags(0).Expand().Border(wxALL, 40));
 
     // Control Panels
-    wxBoxSizer *controlsSizer = new wxBoxSizer(wxHORIZONTAL);
-    wxBoxSizer *subControlsSizer = new wxBoxSizer(wxVERTICAL);
+    wxBoxSizer* controlsSizer = new wxBoxSizer(wxHORIZONTAL);
+    wxBoxSizer* subControlsSizer = new wxBoxSizer(wxVERTICAL);
 
     // controlsSizer->AddStretchSpacer();
     subControlsSizer->Add(m_instrumentPicker.getSizer(),
@@ -69,13 +76,13 @@ ParentFrame::ParentFrame(AudioEngine &engine)
         wxSizerFlags(0).Align((wxALIGN_CENTER_HORIZONTAL)).Border(wxALL, 40));
 
     // Instrument Picker
-    auto *picker = m_instrumentPicker.getPicker();
+    auto* picker = m_instrumentPicker.getPicker();
     picker->Bind(wxEVT_CHOICE, &ParentFrame::OnInstrumentSelect, this);
 
     SetSizer(mainSizer);
 }
 
-void ParentFrame::OnInstrumentSelect(wxCommandEvent &)
+void ParentFrame::OnInstrumentSelect(wxCommandEvent&)
 {
     VoiceName i = static_cast<VoiceName>(
         m_instrumentPicker.getPicker()->GetCurrentSelection());

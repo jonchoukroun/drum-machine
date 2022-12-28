@@ -29,9 +29,9 @@ private:
 class ParentFrame : public wxFrame
 {
 public:
-    ParentFrame(AudioEngine &);
+    ParentFrame(AudioEngine&);
 
-    void OnInstrumentSelect(wxCommandEvent &);
+    void OnInstrumentSelect(wxCommandEvent&);
 
 private:
     InstrumentPicker m_instrumentPicker;

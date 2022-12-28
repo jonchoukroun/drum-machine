@@ -8,22 +8,22 @@
 #include <string>
 #include <vector>
 
-#include "voice.h"
 #include "string_constants.h"
+#include "voice.h"
 
 class InstrumentPicker
 {
 public:
-    InstrumentPicker(wxWindow *);
+    InstrumentPicker(wxWindow*);
 
-    wxBoxSizer *getSizer() const { return m_sizer; };
+    wxBoxSizer* getSizer() const { return m_sizer; };
 
-    inline wxChoice *getPicker() const { return m_picker; };
+    inline wxChoice* getPicker() const { return m_picker; };
 
 private:
-    wxStaticBoxSizer *m_sizer{nullptr};
-    wxStaticText *m_pickerLabel{nullptr};
-    wxChoice *m_picker{nullptr};
+    wxStaticBoxSizer* m_sizer{nullptr};
+    wxStaticText* m_pickerLabel{nullptr};
+    wxChoice* m_picker{nullptr};
 
     const std::vector<std::string> s_instruments{
         {INSTRUMENT_KICK, INSTRUMENT_SNARE, INSTRUMENT_CLOSED_HAT}};

@@ -89,7 +89,7 @@ void AudioEngine::stop()
     }
 }
 
-void AudioEngine::fillBuffer(float *buffer, size_t size)
+void AudioEngine::fillBuffer(float* buffer, size_t size)
 {
     for (auto i = 0; i < size; ++i)
     {
@@ -101,19 +101,19 @@ void AudioEngine::fillBuffer(float *buffer, size_t size)
     }
 }
 
-int AudioEngine::PaStreamCallback(const void *inputBuffer,
-                                  void *outputBuffer,
+int AudioEngine::PaStreamCallback(const void* inputBuffer,
+                                  void* outputBuffer,
                                   unsigned long bufferSize,
-                                  const PaStreamCallbackTimeInfo *timeInfo,
+                                  const PaStreamCallbackTimeInfo* timeInfo,
                                   PaStreamCallbackFlags statusFlags,
-                                  void *userData)
+                                  void* userData)
 {
-    AudioEngine *_this = static_cast<AudioEngine *>(userData);
+    AudioEngine* _this = static_cast<AudioEngine*>(userData);
     (void)inputBuffer;
     (void)timeInfo;
     (void)statusFlags;
 
-    float *out = static_cast<float *>(outputBuffer);
+    float* out = static_cast<float*>(outputBuffer);
 
     _this->fillBuffer(out, bufferSize);
 
@@ -145,10 +145,7 @@ void AudioEngine::triggerInstruments()
         m_kick.play();
 }
 
-void AudioEngine::clearInstruments()
-{
-    m_kick.stop();
-}
+void AudioEngine::clearInstruments() { m_kick.stop(); }
 
 void AudioEngine::handlePaError(std::string name, PaError e)
 {

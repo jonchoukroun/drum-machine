@@ -2,8 +2,7 @@
 
 #include "kick.h"
 
-Kick::Kick(double s)
-    : m_ampEnv(s), m_pitchEnv(s), m_sampleRate((s))
+Kick::Kick(double s) : m_ampEnv(s), m_pitchEnv(s), m_sampleRate((s))
 {
     generateTable();
 
@@ -59,13 +58,16 @@ void Kick::generateTable()
 {
     for (auto i = 0; i < s_tableSize; ++i)
     {
-        m_table.at(i) = sin(static_cast<double>(M_PI) * 2.0 * (static_cast<double>(i) / static_cast<double>(s_tableSize)));
+        m_table.at(i) = sin(
+            static_cast<double>(M_PI) * 2.0
+            * (static_cast<double>(i) / static_cast<double>(s_tableSize)));
     }
 }
 
 double Kick::calcPhaseAcc()
 {
-    return static_cast<double>(s_tableSize) * m_pitchEnv.getPitch() / m_sampleRate;
+    return static_cast<double>(s_tableSize) * m_pitchEnv.getPitch()
+           / m_sampleRate;
 }
 
 float Kick::interpolate(double i)
@@ -73,5 +75,6 @@ float Kick::interpolate(double i)
     const auto i0 = static_cast<int>(i);
     const auto i1 = static_cast<int>(std::ceil(i)) % m_table.size();
     const auto ilWeight = i - static_cast<double>(i0);
-    return static_cast<float>(m_table.at(i1) * ilWeight + (1.0 - ilWeight) * m_table.at(i0));
+    return static_cast<float>(m_table.at(i1) * ilWeight
+                              + (1.0 - ilWeight) * m_table.at(i0));
 }
