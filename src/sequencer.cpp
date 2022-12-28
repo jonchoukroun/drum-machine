@@ -14,10 +14,10 @@ Sequencer::Sequencer(wxWindow* parent, AudioEngine& engine)
                                   "DrumMachine/assets/seq_button_off.png",
                                   wxBITMAP_TYPE_PNG);
 
-    initSizerButtons(m_engine.getVoiceFromInst(m_selectedInstrument));
+    initSizerButtons(m_engine.getBeatsFromVoice(m_selectedInstrument));
 }
 
-void Sequencer::setInstrument(const VoiceName i)
+void Sequencer::setInstrument(const Voice i)
 {
     m_selectedInstrument = i;
     updateSizer();
@@ -26,27 +26,28 @@ void Sequencer::setInstrument(const VoiceName i)
 void Sequencer::toggleBeat(wxCommandEvent& ev)
 {
     int i = ev.GetId();
-    AudioEngine::Voice& voice = m_engine.getVoiceFromInst(m_selectedInstrument);
-    bool isSet = voice.at(i);
+    AudioEngine::Beats& beats
+        = m_engine.getBeatsFromVoice(m_selectedInstrument);
+    bool isSet = beats.at(i);
     if (isSet)
     {
-        voice.at(i) = false;
+        beats.at(i) = false;
     }
     else
     {
-        voice.at(i) = true;
+        beats.at(i) = true;
     }
     updateSizer();
 }
 
 void Sequencer::updateSizer()
 {
-    const AudioEngine::Voice& v
-        = m_engine.getVoiceFromInst(m_selectedInstrument);
+    const AudioEngine::Beats& b
+        = m_engine.getBeatsFromVoice(m_selectedInstrument);
     const auto sizerCount = m_sizer->GetItemCount();
     for (auto i = 0; i != sizerCount; ++i)
     {
-        assert(i != v.size());
+        assert(i != b.size());
 
         wxSizerItem* item = m_sizer->GetItem(i);
         wxBoxSizer* sizer = static_cast<wxBoxSizer*>(item->GetSizer());
@@ -55,7 +56,7 @@ void Sequencer::updateSizer()
         wxBoxSizer* newSizer = new wxBoxSizer(wxVERTICAL);
 
         const wxBitmap* bmp;
-        if (v.at(i))
+        if (b.at(i))
         {
             bmp = s_buttonOnImg;
         }
@@ -82,13 +83,13 @@ void Sequencer::updateSizer()
     m_parent->Layout();
 }
 
-void Sequencer::initSizerButtons(AudioEngine::Voice& v)
+void Sequencer::initSizerButtons(AudioEngine::Beats& b)
 {
     for (auto i = 0; i != m_engine.getSeqSize(); ++i)
     {
         wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
         const wxBitmap* bmp;
-        if (v.at(i))
+        if (b.at(i))
         {
             bmp = s_buttonOnImg;
         }

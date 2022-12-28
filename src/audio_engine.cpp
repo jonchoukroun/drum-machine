@@ -25,7 +25,7 @@ bool AudioEngine::init()
 
     adjustBeatDuration();
 
-    initVoices();
+    initBeats();
 
     return true;
 }
@@ -153,7 +153,7 @@ void AudioEngine::handlePaError(std::string name, PaError e)
     std::cout << "Error: " << e << std::endl;
 }
 
-void AudioEngine::initVoices()
+void AudioEngine::initBeats()
 {
     m_kicks.fill(false);
     m_snares.fill(false);

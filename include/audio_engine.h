@@ -28,17 +28,17 @@ public:
     void setTemp(const int t) { m_tempo = t; };
 
     static constexpr int s_seqSize{16};
-    using Voice = std::array<bool, s_seqSize>;
+    using Beats = std::array<bool, s_seqSize>;
 
-    Voice& getVoiceFromInst(VoiceName& inst)
+    Beats& getBeatsFromVoice(Voice& v)
     {
-        switch (inst)
+        switch (v)
         {
-        case VoiceName::Kick:
+        case Voice::Kick:
             return m_kicks;
-        case VoiceName::Snare:
+        case Voice::Snare:
             return m_snares;
-        case VoiceName::ClosedHats:
+        case Voice::ClosedHats:
             return m_hats;
         default:
             std::cout << "Error! Tried to get voice from invalid instrument\n";
@@ -57,9 +57,9 @@ private:
 
     PaStream* m_stream{nullptr};
 
-    Voice m_kicks;
-    Voice m_snares;
-    Voice m_hats;
+    Beats m_kicks;
+    Beats m_snares;
+    Beats m_hats;
 
     Kick m_kick{s_sampleRate};
 
@@ -88,5 +88,5 @@ private:
 
     void handlePaError(std::string, PaError);
 
-    void initVoices();
+    void initBeats();
 };

@@ -24,7 +24,7 @@ public:
 
     wxStaticBoxSizer* getSizer() const { return m_sizer; };
 
-    void setInstrument(const VoiceName i);
+    void setInstrument(const Voice v);
 
     void updateSizer();
 
@@ -34,7 +34,7 @@ private:
 
     AudioEngine& m_engine;
 
-    VoiceName m_selectedInstrument{VoiceName::Kick};
+    Voice m_selectedInstrument{Voice::Kick};
 
     wxBitmap* s_buttonOnImg;
     wxBitmap* s_buttonOffImg;
@@ -45,5 +45,5 @@ private:
     wxString getButtonLabel(const size_t) const;
     wxString getButtonLabel(wxString) const;
 
-    void initSizerButtons(AudioEngine::Voice&);
+    void initSizerButtons(AudioEngine::Beats&);
 };

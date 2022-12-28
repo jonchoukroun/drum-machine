@@ -84,7 +84,7 @@ ParentFrame::ParentFrame(AudioEngine& engine)
 
 void ParentFrame::OnInstrumentSelect(wxCommandEvent&)
 {
-    VoiceName i = static_cast<VoiceName>(
+    Voice i = static_cast<Voice>(
         m_instrumentPicker.getPicker()->GetCurrentSelection());
     m_sequencer.setInstrument(i);
 }

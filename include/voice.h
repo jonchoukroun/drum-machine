@@ -1,6 +1,6 @@
 #pragma once
 
-enum class VoiceName
+enum class Voice
 {
     Kick,
     Snare,
