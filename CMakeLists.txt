@@ -23,6 +23,7 @@ add_executable(DrumMachine ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/audio_engine.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/amp_envelope.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/kick.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/snare.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/pitch_envelope.cpp
     # GUI Components
     ${CMAKE_CURRENT_SOURCE_DIR}/src/instrument_picker.cpp
