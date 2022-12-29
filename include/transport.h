@@ -28,4 +28,11 @@ private:
     wxBoxSizer* m_buttonsSizer{nullptr};
     wxButton* m_playButton{nullptr};
     wxButton* m_stopButton{nullptr};
+
+    int m_currentTempo;
+
+    void onTempoInputChange(wxCommandEvent&);
+
+    void onPlayClick(wxCommandEvent&);
+    void onStopClick(wxCommandEvent&);
 };

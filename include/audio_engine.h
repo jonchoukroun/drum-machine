@@ -26,7 +26,11 @@ public:
     int getSeqSize() const { return s_seqSize; };
 
     int getTempo() const { return m_tempo; };
-    void setTemp(const int t) { m_tempo = t; };
+    void setTempo(const int t)
+    {
+        m_tempo = t;
+        adjustBeatDuration();
+    };
 
     static constexpr int s_seqSize{16};
     using Beats = std::array<bool, s_seqSize>;
